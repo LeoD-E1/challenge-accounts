@@ -1,5 +1,6 @@
 import { routes } from './view';
 import { Switch, Route } from 'wouter';
+
 function App() {
   return (
     <Switch>

@@ -1,13 +1,14 @@
 import React from 'react';
-import { useRoute } from 'wouter';
+import { useLocation } from 'wouter';
 
 const AccountDetail = () => {
-  const { accountNumber } = useRoute();
+  const [location] = useLocation();
+  const account = location.split('/')[2];
   console.log(
-    '🚀 ~ file: AccountDetail.jsx ~ line 7 ~ AccountDetail ~ accountNumber',
-    accountNumber
+    '🚀 ~ file: AccountDetail.jsx ~ line 7 ~ AccountDetail ~ location',
+    location.split('/')[2]
   );
-  return <div>AccountDetail</div>;
+  return <div>{account}</div>;
 };
 
 export default AccountDetail;
