@@ -7,6 +7,7 @@ const Accounts = () => {
   const ITEMS_PER_PAGE = 5;
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState(false);
   const [visibleAccount, setVisibleAccount] = useState(
     [...accounts].splice(0, ITEMS_PER_PAGE)
@@ -32,9 +33,19 @@ const Accounts = () => {
     }
   };
 
-  const handlePrev = () => {};
+  const handlePrev = () => {
+    const prevPage = currentPage - 1;
+    const toIndex = prevPage * ITEMS_PER_PAGE;
+    setVisibleAccount([...accounts].splice(toIndex, ITEMS_PER_PAGE));
+    setCurrentPage(prevPage);
+  };
 
-  const handleNext = () => {};
+  const handleNext = () => {
+    const nextPage = currentPage + 1;
+    const toIndex = nextPage * ITEMS_PER_PAGE;
+    setVisibleAccount([...accounts].splice(toIndex, ITEMS_PER_PAGE));
+    setCurrentPage(nextPage);
+  };
 
   useEffect(() => {
     (async () => await getAccounts())();
@@ -55,6 +66,13 @@ const Accounts = () => {
 
       <div className='container'>
         <div className='accounts-container'>
+          {currentPage !== 0 && (
+            <div className='account-card' onClick={handlePrev}>
+              <h4></h4>
+              <h4>Previous page</h4>
+              <h3></h3>
+            </div>
+          )}
           {visibleAccount.map((account, i) => (
             <Link key={i} href={`/accounts/${account.n}`}>
               <div className='account-card'>
@@ -64,7 +82,14 @@ const Accounts = () => {
               </div>
             </Link>
           ))}
-          {ITEMS_PER_PAGE < accounts.length}
+
+          {accounts.length > currentPage * ITEMS_PER_PAGE && (
+            <div className='account-card' onClick={handleNext}>
+              <h4></h4>
+              <h4>Next page</h4>
+              <h3></h3>
+            </div>
+          )}
         </div>
       </div>
     </>
